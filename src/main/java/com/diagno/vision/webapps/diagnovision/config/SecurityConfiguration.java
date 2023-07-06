@@ -1,9 +1,12 @@
 package com.diagno.vision.webapps.diagnovision.config;
 
 import com.diagno.vision.webapps.diagnovision.filter.CsrfCookieFilter;
+import com.diagno.vision.webapps.diagnovision.filter.JwtTokenCreationFilter;
+import com.diagno.vision.webapps.diagnovision.filter.JwtTokenValidationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -25,17 +28,20 @@ public class SecurityConfiguration {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
-        http.cors(withDefaults()).csrf(csrf -> csrf
-                                                    .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()) //Please set to ignore public apis
-                                                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())) //Set to allow JS code to save the csrf token
-                                                    .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .cors(withDefaults()).csrf(csrf -> csrf
+                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()) //Please set to ignore public apis
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())) //Set to allow JS code to save the csrf token
+                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new JwtTokenCreationFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new JwtTokenValidationFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> requests
-                                                        .requestMatchers("/user", "/file").hasAnyRole(Role.ROLE_ADMIN.getValue(),
-                                                                                                                     Role.ROLE_REGULAR.getValue(),
-                                                                                                                     Role.ROLE_PROFESSIONAL.getValue())
-                                                        .requestMatchers("/users").hasAnyRole(Role.ROLE_ADMIN.getValue(),
-                                                                                                       Role.ROLE_PROFESSIONAL.getValue())
-                                                        .requestMatchers("/register").permitAll());
+                        .requestMatchers("/user", "/file").hasAnyRole(Role.ROLE_ADMIN.getValue(),
+                                Role.ROLE_REGULAR.getValue(),
+                                Role.ROLE_PROFESSIONAL.getValue())
+                        .requestMatchers("/users").hasAnyRole(Role.ROLE_ADMIN.getValue(),
+                                Role.ROLE_PROFESSIONAL.getValue())
+                        .requestMatchers("/register").permitAll());
         return http.build();
     }
 

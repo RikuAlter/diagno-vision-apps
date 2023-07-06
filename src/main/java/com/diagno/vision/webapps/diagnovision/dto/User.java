@@ -24,6 +24,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private Integer id;
 
     @NonNull
@@ -47,6 +48,8 @@ public class User implements UserDetails {
     @NonNull
     @Enumerated
     private Role role;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<ImageData> images;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

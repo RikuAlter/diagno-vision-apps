@@ -19,7 +19,7 @@ public class ImageData {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @ManyToOne
-    @JoinColumn(name="userEmail", referencedColumnName = "userEmail")
+    @JoinColumn(name="user_id", referencedColumnName = "user_id")
     private User user;
 
     private String imageDescription;
@@ -27,4 +27,6 @@ public class ImageData {
     private LocalDateTime uploadDate;
     @NonNull
     private LocalDateTime creationDate;
+
+    private boolean markedForDeletion;
 }

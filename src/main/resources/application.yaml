@@ -12,9 +12,7 @@ spring:
   kafka:
     producer:
       bootstrap-servers: localhost:9092
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      properties:
-        spring:
-          json:
-            type:
-              mapping: Sensor:com.traffic.sensor.data.producer.trafficsensorproducer.dto.Sensor
+
+security:
+  jwt:
+    secret-key:
