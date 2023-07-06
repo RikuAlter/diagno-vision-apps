@@ -12,7 +12,8 @@ spring:
   kafka:
     producer:
       bootstrap-servers: localhost:9092
+    topic-name: ${KAFKA_TOPIC}
 
 security:
   jwt:
-    secret-key:
+    secret-key: ${SECRET_KEY}

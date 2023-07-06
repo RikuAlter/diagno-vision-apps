@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "image")
@@ -24,9 +25,9 @@ public class ImageData {
 
     private String imageDescription;
     @NonNull
-    private LocalDateTime uploadDate;
+    private Date uploadDate;
     @NonNull
-    private LocalDateTime creationDate;
+    private Date creationDate;
 
     private boolean markedForDeletion;
 }

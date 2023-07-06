@@ -15,6 +15,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -41,7 +42,11 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
             final String userName = extractUserName(claims);
             final Optional<User> savedUser = userRepository.findByEmail(userName);
             if(savedUser.isPresent()){
-                final Authentication auth = new UsernamePasswordAuthenticationToken(userName, null, savedUser.get().getAuthorities());
+                final UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                        userName,
+                        null,
+                        savedUser.get().getAuthorities());
+                auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
             filterChain.doFilter(request, response);

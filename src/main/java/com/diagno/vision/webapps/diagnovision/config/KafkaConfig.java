@@ -1,6 +1,7 @@
 package com.diagno.vision.webapps.diagnovision.config;
 
 import org.apache.kafka.common.serialization.ByteArraySerializer;
+import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
@@ -13,12 +14,12 @@ import org.springframework.kafka.core.ProducerFactory;
 public class KafkaConfig {
 
     @Bean
-    public ProducerFactory<String, byte[]> producerFactory(KafkaProperties kafkaProperties){
-        return new DefaultKafkaProducerFactory<>(kafkaProperties.buildProducerProperties(), new StringSerializer(), new ByteArraySerializer());
+    public ProducerFactory<Integer, byte[]> producerFactory(KafkaProperties kafkaProperties){
+        return new DefaultKafkaProducerFactory<>(kafkaProperties.buildProducerProperties(), new IntegerSerializer(), new ByteArraySerializer());
     }
 
     @Bean
-    public KafkaTemplate<String, byte[]> kafkaTemplate(KafkaProperties kafkaProperties){
+    public KafkaTemplate<Integer, byte[]> kafkaTemplate(KafkaProperties kafkaProperties){
         return new KafkaTemplate<>(producerFactory(kafkaProperties));
     }
 }

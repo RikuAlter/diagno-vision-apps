@@ -7,8 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -42,9 +42,9 @@ public class User implements UserDetails {
     @NonNull
     private String password;
     @NonNull
-    private LocalDateTime lastLogin;
+    private Date lastLogin;
     @NonNull
-    private LocalDateTime createdAt;
+    private Date createdAt;
     @NonNull
     @Enumerated
     private Role role;
