@@ -26,18 +26,18 @@ Currently diagnosed disease types: TBD
 You can download the source code for the Spring based webapp from this repository.
 The necessary dependencies are updated in build.gradle
 
-The following environment variables need to be made available to ensure proper database connection and Kafka functionality: <TBD>
+The following environment variables need to be made available to ensure proper database connection and Kafka functionality: TBD
 
 ## API Documentation
 TBD
 
 ## Suggestions and Improvement Feedback
-TBD
+We are open to suggestions and improvements, please let us know of additional features/workaround by opening an issue against this repository or reaching out directly!
 
 ## Contact
 
 Please feel free to open an issue against this repository anytime in order to raise an issue.
-TBD
+Or contact us directly at: rikuAlter@gmail.com
 
 ## Acknowledgements
 TBD
